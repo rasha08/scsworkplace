@@ -77,9 +77,6 @@
   "version": "1.0.0",
   "description": "Agile development scrum board",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "rasha08@gmail.com",
   "license": "ISC"
 
