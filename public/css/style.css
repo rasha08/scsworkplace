@@ -88,11 +88,14 @@ main {
 }
 
 #content {
-  padding-top: 8vh;
+  padding-top: 60px;
   height: 100%;
   width: 100%;
   background-color: rgba(255, 255, 255, .70);
   width: 100vw;
+}
+#content h1 {
+  margin-top: 3%;
 }
 
 .create-project{
@@ -120,7 +123,8 @@ main {
 .create-project .alert-warning {
   position: absolute;
   z-index: 9999999999999999;
-  width: 96%;
+  width: 35vw;
+  margin-left: 15vw;
 }
 #content .card {
   border: 3px solid firebrick;
@@ -131,6 +135,16 @@ main {
 
 #content .card .card-header{
   border-bottom: 1px solid firebrick;
+}
+
+.no-project {
+  margin-top: 15vh;
+  width: 80vw;
+  margin-left: 10vw;
+}
+
+.no-project .btn {
+  margin-right: 3%;
 }
 
 .btn#create-project {
@@ -150,17 +164,18 @@ main {
 }
 
 #board .column:last-child {
-  border-right: none;  
+  border-right: none;
 }
 
 #board .column .column-header {
+  margin-top: 1%;
   position: fixed;
   padding:1%;
-  background-color: rgba(52,58,64, 1);
+  background-color: rgba(52,58,64, .8);
   color: snow;
   width: 22vw;
   height: 45px;
-  box-shadow: inset 1px 1px 12px 1px lightblue 
+  box-shadow: inset 1px 1px 12px 1px lightblue
 }
 
 #board .column .column-tasks {
