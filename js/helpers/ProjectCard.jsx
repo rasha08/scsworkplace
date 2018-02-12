@@ -3,7 +3,7 @@ import LinkWrapper from './LinkWrapper';
 
 const ProjectCard = props => (
   <LinkWrapper
-    className="card text-white bg-dark col-md-6"
+    className="card text-white bg-dark col-md-4"
     to={`/projects/${props.project.projectNameSlug}`}
     style={{ opacity: 0.9 }}
   >

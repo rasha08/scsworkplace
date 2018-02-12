@@ -41,7 +41,7 @@ class App extends Component {
   getProjectsFromDatabase() {
     this.databaseRef.on('value', snapshot => {
       const projects = snapshot.val();
-
+      console.log(projects);
       this.setState({
         userProjects: filter(
           projects,
@@ -53,6 +53,12 @@ class App extends Component {
 
   signin() {
     auth.signInWithRedirect(googleAuthProvider);
+  }
+
+  getProjectByNameSlug(nameSlug) {
+    return this.state.userProjects.find(
+      project => project.projectNameSlug === nameSlug
+    );
   }
 
   render() {
@@ -87,7 +93,14 @@ class App extends Component {
                 />
                 <Route
                   path="/projects/:projectUrlSlug"
-                  component={props => <ProjectBoard user={this.state.user} />}
+                  component={props => (
+                    <ProjectBoard
+                      user={this.state.user}
+                      project={this.getProjectByNameSlug(
+                        props.match.params.projectUrlSlug
+                      )}
+                    />
+                  )}
                 />
               </Switch>
             </div>

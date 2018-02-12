@@ -13,6 +13,7 @@ class CreateProject extends Component {
       projectNameSlug: '',
       projectDescription: '',
       projectMembers: [],
+      projectColumns: [],
       projectLogoUrl: '',
       projectSpecificationUrl: '',
       startDate: '',
@@ -50,6 +51,12 @@ class CreateProject extends Component {
     });
   }
 
+  handleProjectColumnsChange(changeEvent) {
+    this.setState({
+      projectColumns: changeEvent.target.value.split('|')
+    });
+  }
+
   handleProjectSpecificationChange(changeEvent) {
     this.setState({
       projectSpecificationUrl: changeEvent.target.value
@@ -62,14 +69,14 @@ class CreateProject extends Component {
     });
   }
 
-  handleImageUpload(event) {
+  handleImageUpload(changeEvent) {
     if (isEmpty(this.state.projectNameSlug)) {
       return;
     }
     this.storrageRef = storage.ref(
       `/${this.state.projectNameSlug}/project-images`
     );
-    const file = event.target.files[0];
+    const file = changeEvent.target.files[0];
     const uploadTask = this.storrageRef
       .child(file.name)
       .put(file, { contentType: file.type });
@@ -91,6 +98,7 @@ class CreateProject extends Component {
           name: this.state.projectName,
           description: this.state.projectDescription,
           members: this.state.projectMembers,
+          boardColumns: this.state.projectColumns,
           logo: this.state.projectLogoUrl,
           specification: this.state.projectSpecificationUrl,
           startDate: this.state.startDate,
@@ -169,6 +177,18 @@ class CreateProject extends Component {
                   id="Members"
                   placeholder="project members"
                   onBlur={event => this.handleProjectMembersChange(event)}
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <label>Project Board Columns</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="columns"
+                  placeholder="Enter Project Board Columns"
+                  onBlur={event => this.handleProjectColumnsChange(event)}
                 />
               </div>
             </div>
