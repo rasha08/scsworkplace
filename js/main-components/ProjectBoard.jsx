@@ -1,44 +1,19 @@
 import React from 'react';
+import { map, get } from 'lodash';
+
+import ProjectBoardColumn from '../helpers/ProjectBoardColumn';
 
 const ProjectBoard = props => {
+  console.log(props);
   return (
     <main>
       <div id="content">
         <div className="container-fluid" id="board">
           {console.log('PROJECT BOARD')}
           <div className="row">
-            <div className="col-md-3 column">
-              <div className="column-header">
-                <h5>TO DO</h5>
-              </div>
-              <div className="column-tasks">
-                <p>TRALALA</p>
-              </div>
-            </div>
-            <div className="col-md-3 column">
-              <div className="column-header">
-                <h5>IN PROGRES</h5>
-              </div>
-              <div className="column-tasks">
-                <p>TRALALA</p>
-              </div>
-            </div>
-            <div className="col-md-3 column">
-              <div className="column-header">
-                <h5>REVIEW / TEST</h5>
-              </div>
-              <div className="column-tasks">
-                <p>TRALALA</p>
-              </div>
-            </div>
-            <div className="col-md-3 column">
-              <div className="column-header">
-                <h5>DONE</h5>
-              </div>
-              <div className="column-tasks">
-                <p>TRALALA</p>
-              </div>
-            </div>
+            {map(get(props.project, 'boardColumns'), column => (
+              <ProjectBoardColumn column={column} key={column} />
+            ))}
           </div>
         </div>
       </div>

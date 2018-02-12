@@ -156,6 +156,10 @@ main {
 .btn#create-workplace {
   position: absolute;
 }
+#board {
+  width: auto;
+  overflow-x: auto;
+}
 
 #board .column {
   height: 85vh;
@@ -168,9 +172,10 @@ main {
 }
 
 #board .column .column-header {
-  margin-top: 1%;
-  position: fixed;
-  padding:1%;
+  margin-top: 3%;
+  position: absolute;
+  padding: 1%;
+  padding-top:5%;
   background-color: rgba(52,58,64, .8);
   color: snow;
   width: 22vw;
@@ -180,6 +185,12 @@ main {
 
 #board .column .column-tasks {
   margin-top: 65px;
+}
+
+.add-task {
+  position: absolute;
+  right: 4px;
+  top: 4px;
 }
 
 @media (min-width: 48em) {
