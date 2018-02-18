@@ -9,12 +9,10 @@ const FormField = props => {
         className="form-control"
         id={props.filedName}
         placeholder={`${props.type} ${props.fieldName}`}
-        value={props.value}
-        onChange={event => props.updateFieldValue(event, props.fieldName)}
         onBlur={event => props.handleChange(event)}
       />
     </div>
-  )
-}
+  );
+};
 
 export default FormField;

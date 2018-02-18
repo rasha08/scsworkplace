@@ -13,7 +13,7 @@ const FormTextAreaField = props => {
         onBlur={event => props.handleChange(event)}
       />
     </div>
-  )
-}
+  );
+};
 
 export default FormTextAreaField;

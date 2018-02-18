@@ -29,7 +29,12 @@ const Landing = props => (
     <div id="content">
       <h1 className="cover-heading">
         {!isEmpty(props.projects)
-          ? <small>Hello {get(props.user, "displayName")},  check out your pojects list:</small>
+          ? <small>
+              Hello
+              {' '}
+              {get(props.user, 'displayName')}
+              ,  check out your pojects list:
+            </small>
           : 'Welcome to Smart Cat Solutions Workplace'}
       </h1>
       {!isEmpty(props.projects)
@@ -49,8 +54,10 @@ const Landing = props => (
               Create Workplace
             </LinkWrapper>
             <hr />
+            <div className="col-md-12">
+              <UserProjects projects={props.projects} />
+            </div>
 
-            <UserProjects projects={props.projects} />
           </div>
         : <NoProjectLanding />}
     </div>

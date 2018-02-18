@@ -5,7 +5,7 @@ import ProjectCard from '../helpers/ProjectCard';
 
 const UserProjects = props => {
   return props.projects
-    ? <div className="container-fluid">
+    ? <div className="container-fluid col-md-12">
         {map(props.projects, project => (
           <ProjectCard project={project} key={project.projectNameSlug} />
         ))}

@@ -107,6 +107,8 @@ main {
   border-bottom-right-radius: 32px;
   margin-top: 1.5%;
   color: snow !important;
+  height: 82vh;
+  overflow-y: scroll;
 }
 
 .create-project.new-workplace-application-not-ready {
@@ -135,6 +137,15 @@ main {
 
 #content .card .card-header{
   border-bottom: 1px solid firebrick;
+}
+
+a.project-card {
+  width: 500px !important;
+  margin-right: 10px;
+  margin-left: 10px;
+  height: 400px !important;
+  overflow-y: auto;
+  display: inline-block;
 }
 
 .no-project {
@@ -197,6 +208,13 @@ main {
 
 .create-task {
   padding-top: 0px;
+  max-height: 80vh;
+  overflow-y: scroll;
+}
+
+.create-task .btn-lg {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .task {
@@ -204,6 +222,7 @@ main {
   box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, .4) !important;
   border: 1px solid firebrick !important;
   height: 150px;
+  overflow: hidden
 }
 
 .task:hover {
@@ -231,7 +250,7 @@ main {
   color: papayawhip;
   background-color: rgba(0, 0, 0, .3);
   width: 115% !important;
-  margin-left: -6%; !important;
+  margin-left: -6% !important;
   top: 0px;
   padding-left: 18px;
   padding-top: 4px !important;
@@ -281,8 +300,8 @@ main {
 
 .task .card-body.bottom {
   bottom: 0px;
-  position: absolute; !important;
-  z-index: : 99999;
+  position: absolute !important;
+  z-index: 99999;
   margin-left: -6%;
   width: 100% !important;
   background-color: rgba(0, 0, 0, .4);
@@ -320,15 +339,52 @@ main {
 
 .high-priority {
   animation-name: highprority;
-  animation-duration: 4s !important;
+  animation-duration: 3s !important;
   animation-iteration-count: infinite !important;
 }
 
+.create-task .comment-alert {
+  width: 95% !important;
+  left: -20%;
+  background-color: rgba(0, 0, 0, .3) !important;
+  color: snow;
+  margin-top: 35px !important;
+}
+
+.create-task .comment-alert .comment-date {
+  position: absolute;
+  left: -20px;
+  top:-20px;
+  color: papayawhip;
+  padding: 3px;
+  background-color: rgba(0, 0, 0, .3) !important;
+  border: 1px solid firebrick;
+ 
+}
+
+.create-task .comment-alert .comment-comment {
+  font-weight: bold;
+}
+
+.create-task .comment-alert .comment-user {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  color: papayawhip;  padding: 3px;
+  background-color: rgba(0, 0, 0, .3) !important;
+  border: 1px solid firebrick;
+}
+
 @keyframes highprority {
-    0%   {box-shadow: 1px 1px 5px 5px firebrick !important}
-    25%  {box-shadow: 1px 1px 10px 10px rgba(0, 0, 0, .8) !important}
-    50%  {box-shadow: 1px 1px 15px 15px firebrick !important}
-    100% {box-shadow: 1px 1px 20px 20px rgba(0, 0, 0, .8) !important}
+  0% {
+    box-shadow: inset 0px 0px 0px 0px rgba(0, 0, 0, .3);
+  }
+  50% {
+    box-shadow: inset 1px 1px 58px 8px firebrick;
+  }
+  100% {
+    box-shadow: inset 0px 0px 0px 0px rgba(0, 0, 0, .3);
+  }
 }
 
 footer.mastfoot a{

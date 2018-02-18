@@ -26,7 +26,7 @@ class App extends Component {
 
   componentDidMount() {
     this.handleAuthStatusChange();
-    this.bindUtilsFunctions()
+    this.bindUtilsFunctions();
   }
 
   handleAuthStatusChange() {
@@ -66,12 +66,12 @@ class App extends Component {
     this.blockTask = this.blockTask.bind(this);
 
     this.setState({
-      'utils': {
-        'getColumnIndex': this.getColumnIndex,
-        'changeTaskColumn': this.changeTaskColumn,
-        'assignUserToTask': this.assignUserToTask,
-        'assignReviewerToTask': this.assignReviewerToTask,
-        'blockTask': this.blockTask
+      utils: {
+        getColumnIndex: this.getColumnIndex,
+        changeTaskColumn: this.changeTaskColumn,
+        assignUserToTask: this.assignUserToTask,
+        assignReviewerToTask: this.assignReviewerToTask,
+        blockTask: this.blockTask
       }
     });
   }
@@ -83,24 +83,33 @@ class App extends Component {
   }
 
   getColumnIndex(column, boardColimns) {
-    return indexOf(boardColimns, column)
+    return indexOf(boardColimns, column);
   }
 
   changeTaskColumn(event, projectUrl, task, newIndex, isDone = false) {
     event.preventDefault();
     event.stopPropagation();
 
-    if (task.columnIndex === 0 && !(task.assigner === this.state.user.displayName)) {
-      this.assignUserToTask(event, projectUrl, task)
+    if (
+      task.columnIndex === 0 &&
+      !(task.assigner === this.state.user.displayName)
+    ) {
+      this.assignUserToTask(event, projectUrl, task);
     }
 
     if (isDone) {
-      database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`).set('done');
-    } else if (task.state === 'done'){
-      database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`).set('active');
+      database
+        .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`)
+        .set('done');
+    } else if (task.state === 'done') {
+      database
+        .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`)
+        .set('active');
     }
 
-    database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/columnIndex`).set(newIndex);
+    database
+      .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/columnIndex`)
+      .set(newIndex);
   }
 
   assignUserToTask(event, projectUrl, task) {
@@ -109,10 +118,14 @@ class App extends Component {
 
     if (task.state !== 'blocked') {
       if (task.assigner === this.state.user.displayName) {
-        database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/assigner`).set('');
+        database
+          .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/assigner`)
+          .set('');
         this.moveTaskToFirstColimnIfNeeded(event, projectUrl, task);
       } else {
-        database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/assigner`).set(this.state.user.displayName);
+        database
+          .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/assigner`)
+          .set(this.state.user.displayName);
       }
     }
   }
@@ -122,31 +135,48 @@ class App extends Component {
     event.stopPropagation();
 
     if (task.reviewer === this.state.user.displayName) {
-      database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/reviewer`).set('');
-    } else if (!isEmpty(task.assigner) && task.assigner !== this.state.user.displayName) {
-      database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/reviewer`).set(this.state.user.displayName);
+      database
+        .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/reviewer`)
+        .set('');
+    } else if (
+      !isEmpty(task.assigner) &&
+      task.assigner !== this.state.user.displayName
+    ) {
+      database
+        .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/reviewer`)
+        .set(this.state.user.displayName);
     }
   }
 
   blockTask(event, projectUrl, task) {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (task.state === 'blocked') {
-      database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`).set('active');
+      database
+        .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`)
+        .set('active');
     } else if (task.state === 'done') {
       return;
     } else {
-      database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`).set('blocked');
+      database
+        .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/state`)
+        .set('blocked');
       this.moveTaskToFirstColimnIfNeeded(event, projectUrl, task);
     }
   }
 
   moveTaskToFirstColimnIfNeeded(event, projectUrl, task) {
     if (task.columnIndex !== 0) {
-      this.changeTaskColumn(event, projectUrl, task, 0)
+      this.changeTaskColumn(event, projectUrl, task, 0);
     }
   }
 
   getTaskByNameSlug(project, taskNameSlug) {
-    return find(get(project, 'tasks', singleTask => singleTask.taskNameSlug === tasknameSlug))
+    return find(
+      get(project, 'tasks'),
+      singleTask => singleTask.taskNameSlug === taskNameSlug
+    );
   }
 
   render() {
@@ -192,8 +222,13 @@ class App extends Component {
                 <Route
                   path="/projects/:projectUrlSlug/tasks/:taskUrlSlug"
                   component={props => {
-                    let project = this.getProjectByNameSlug(props.match.params.projectUrlSlug);
-                    let task = this.getTaskByNameSlug(project, props.match.params.taskUrlSlug)
+                    let project = this.getProjectByNameSlug(
+                      props.match.params.projectUrlSlug
+                    );
+                    let task = this.getTaskByNameSlug(
+                      project,
+                      props.match.params.taskUrlSlug
+                    );
                     return (
                       <CreateTask
                         user={this.state.user}
@@ -201,8 +236,8 @@ class App extends Component {
                         task={task}
                         utils={this.state.utils}
                       />
-                    )}
-                  }
+                    );
+                  }}
                 />
                 <Route
                   path="/projects/:projectUrlSlug"
