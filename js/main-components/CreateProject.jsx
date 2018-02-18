@@ -14,6 +14,7 @@ class CreateProject extends Component {
       projectDescription: '',
       projectMembers: [],
       projectColumns: [],
+      projectLabels: [],
       projectLogoUrl: '',
       projectSpecificationUrl: '',
       startDate: '',
@@ -54,6 +55,12 @@ class CreateProject extends Component {
   handleProjectColumnsChange(changeEvent) {
     this.setState({
       projectColumns: changeEvent.target.value.split('|')
+    });
+  }
+
+  handleProjectLabelsChange(changeEvent) {
+    this.setState({
+      projectLabels: changeEvent.target.value.split('|')
     });
   }
 
@@ -104,6 +111,7 @@ class CreateProject extends Component {
           startDate: this.state.startDate,
           projectMaster: this.state.user.email,
           tasks: [],
+          labels: this.state.projectLabels,
           projectNameSlug: this.state.projectNameSlug
         })
         .then(() => {
@@ -189,6 +197,18 @@ class CreateProject extends Component {
                   id="columns"
                   placeholder="Enter Project Board Columns"
                   onBlur={event => this.handleProjectColumnsChange(event)}
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-12">
+                <label>Project Board Labels</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="columns"
+                  placeholder="Enter Project Board Labels"
+                  onBlur={event => this.handleProjectLabelsChange(event)}
                 />
               </div>
             </div>

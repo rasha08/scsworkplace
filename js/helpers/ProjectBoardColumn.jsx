@@ -1,18 +1,36 @@
 import React from 'react';
-import { map, get } from 'lodash';
+import { map, get, filter } from 'lodash';
 
-const ProjectBoardColumn = props => (
-  <div className="col-md-3 column">
-    <div className="column-header">
-      <h6>
-        {props.column.toUpperCase()}
-      </h6>
-      <div className="btn btn-xs btn-dark right add-task">+</div>
+import LinkWrapper from './LinkWrapper';
+import TaskCard from './task-components/TaskCard';
+
+const ProjectBoardColumn = props => {
+  console.log(filter(props.tasks, task => task.columnIndex === props.index));
+  return (
+    <div className="col-md-3 column">
+      <div className="column-header">
+        <h6>
+          {props.column.toUpperCase()}
+        </h6>
+        {props.index === 0 ?<LinkWrapper to={`/add-task/${props.projectNameSlug}`} className="btn btn-xs btn-dark right add-task">+</LinkWrapper> : <div />}
+      </div>
+      <div className="column-tasks">
+        {
+          map(
+            filter(props.tasks, task => task.columnIndex === props.index),
+            task => <TaskCard
+                      task={task}
+                      utils={props.utils}
+                      projectNameSlug={props.projectNameSlug}
+                      index={props.index}
+                      lastIndex={props.lastIndex}
+                      key={task.taskNameSlug}
+                    />
+          )
+        }
+      </div>
     </div>
-    <div className="column-tasks">
-      {map(props.tasks, task => <p>{get(task, 'name')}</p>)}
-    </div>
-  </div>
-);
+  )
+};
 
 export default ProjectBoardColumn;

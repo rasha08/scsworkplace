@@ -162,8 +162,8 @@ main {
 }
 
 #board .column {
-  height: 85vh;
-  overflow-y: scroll;
+  height: 84vh;
+  overflow-y: hidden;
   border-right: 2px solid firebrick;
 }
 
@@ -185,12 +185,154 @@ main {
 
 #board .column .column-tasks {
   margin-top: 65px;
+  height: 75.5vh;
+  overflow-y: scroll;
 }
 
 .add-task {
   position: absolute;
   right: 4px;
   top: 4px;
+}
+
+.create-task {
+  padding-top: 0px;
+}
+
+.task {
+  margin-top: 7px;
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, .4) !important;
+  border: 1px solid firebrick !important;
+  height: 150px;
+}
+
+.task:hover {
+  box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, .8) !important
+}
+
+.task h6 {
+  padding: 0px;
+  margin: 0px;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.task small.card-text {
+  font-size: 10px;
+  color: papayawhip;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.task .card-header {
+  font-size: 10px;
+  height: 24px !important;
+  color: papayawhip;
+  background-color: rgba(0, 0, 0, .3);
+  width: 115% !important;
+  margin-left: -6%; !important;
+  top: 0px;
+  padding-left: 18px;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  border-top-left-radius: 32px !important;
+}
+
+.task .card-header i {
+  font-size: 18px;
+  position: absolute;
+  left: 12px;
+}
+
+.task .card-header span.badge {
+  padding: 5px;
+  margin-top: -2px;
+  font-size: 8px;
+  position: absolute;
+  right: 5px;
+  background-color: rgba(255,239,213, .8);
+  color: firebrick;
+}
+
+.task .card-link {
+  font-size: 10px;
+  display: inline !important;
+}
+
+.task .card-body {
+  width: 100%;
+  padding: 0;
+}
+
+.task .card-body.top {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.task .card-body.top.done {
+  background-image: url(/public/images/tick.png);
+}
+
+.task .card-body.top.blocked {
+  background-image: url(/public/images/block.png);
+}
+
+.task .card-body.bottom {
+  bottom: 0px;
+  position: absolute; !important;
+  z-index: : 99999;
+  margin-left: -6%;
+  width: 100% !important;
+  background-color: rgba(0, 0, 0, .4);
+  border-bottom-right-radius: 32px;
+  padding-top: 4px;
+}
+
+.task .card-body.bottom i{
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.task .card-body.bottom i.disabled {
+  color: gray !important;
+  pointer-events: none;
+}
+
+.task .card-body.bottom i.assigned {
+  color: #7F7FFF !important;
+}
+
+.task .card-body.bottom i:last-child {
+  color: olive;
+}
+
+.task .card-body.bottom i:first-child {
+  color: orange
+}
+
+
+.task .card-body.bottom i:nth-child(3) {
+  color: firebrick
+}
+
+.high-priority {
+  animation-name: highprority;
+  animation-duration: 4s !important;
+  animation-iteration-count: infinite !important;
+}
+
+@keyframes highprority {
+    0%   {box-shadow: 1px 1px 5px 5px firebrick !important}
+    25%  {box-shadow: 1px 1px 10px 10px rgba(0, 0, 0, .8) !important}
+    50%  {box-shadow: 1px 1px 15px 15px firebrick !important}
+    100% {box-shadow: 1px 1px 20px 20px rgba(0, 0, 0, .8) !important}
+}
+
+footer.mastfoot a{
+  color: firebrick;
 }
 
 @media (min-width: 48em) {
@@ -217,6 +359,3 @@ main {
 /*
  * Footer
  */
-.mastfoot {
-  color: rgba(255, 255, 255, .5);
-}
