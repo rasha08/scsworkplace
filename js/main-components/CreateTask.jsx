@@ -14,7 +14,6 @@ import TaskAddComment from '../helpers/task-components/TaskAddComment';
 class CreateTask extends Component {
   constructor(props) {
     super();
-    console.log(props.task);
     this.state = {
       user: props.user,
       name: '',
@@ -143,21 +142,16 @@ class CreateTask extends Component {
         label: this.state.label,
         highPriorityTask: this.state.highPriorityTask,
         taskNameSlug: this.state.taskNameSlug ||
-          `${this.state.taskNameSlug}-${timestamp}`
+          `${this.state.taskNameSlug}-${timestamp}`,
+        comments: this.state.oldTaskState.comments || [],
+        assigner: this.state.assigner,
+        reviewer: this.state.reviewer
       });
-
-      this.setState({ redirect: true });
     } else {
       this.setState({
         taskDataValid: false
       });
-      setTimeout(
-        () =>
-          this.setState({
-            taskDataValid: true
-          }),
-        2300
-      );
+      this.setStateAfterTimeout({taskDataValid: true}, 2300)
     }
   }
 
@@ -193,6 +187,14 @@ class CreateTask extends Component {
     this.setState({
       commentText: event.target.value
     });
+  }
+
+  setStateAfterTimeout(stateChange, timeoutTime) {
+    setTimeout(
+        () =>
+          this.setState(stateChange),
+        timeoutTime
+      );
   }
 
   render() {
