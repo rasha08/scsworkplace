@@ -15,6 +15,30 @@ a:hover {
   border: .05rem solid #fff;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track, ::-webkit-scrollbar-track:horizontal {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:horizontal {
+  background: rgba(0, 0, 0, .34); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 
 /*
  * Base structure
@@ -24,6 +48,7 @@ html,
 body {
   height: 100%;
   background-color: #333;
+  overflow: hidden !important;
 }
 
 body {
@@ -77,7 +102,7 @@ body {
 }
 
 main {
-  height: 93vh;
+  height:97.2vh;
   width: 100vw;
   background-image: url(../images/2-min.jpg);
   background-attachment: fixed;
@@ -173,9 +198,10 @@ a.project-card {
 }
 
 #board .column {
-  height: 84vh;
+  height: 90.5vh;
   overflow-y: hidden;
   border-right: 2px solid firebrick;
+  overflow-x: hidden;
 }
 
 #board .column:last-child {
@@ -183,27 +209,36 @@ a.project-card {
 }
 
 #board .column .column-header {
-  margin-top: 3%;
+  margin-top: 2%;
+  margin-left: -1%;
   position: absolute;
   padding: 1%;
-  padding-top:5%;
   background-color: rgba(52,58,64, .8);
   color: snow;
-  width: 22vw;
-  height: 45px;
+  width: 24vw;
+  height: 30px !important;
+  overflow: hidden;
   box-shadow: inset 1px 1px 12px 1px lightblue
 }
 
 #board .column .column-tasks {
-  margin-top: 65px;
-  height: 75.5vh;
-  overflow-y: scroll;
+  margin-top: 35px;
+  height: 91.5vh;
+  overflow-y: auto;
 }
+
+
 
 .add-task {
   position: absolute;
   right: 4px;
-  top: 4px;
+  top: 2px;
+  padding-top: 0.2% !important;
+  padding-bottom: 0% !important;
+  padding-left: 1% !important;
+  padding-right: 1% !important;
+  height: 26px !important;
+  overflow: hidden;
 }
 
 .create-task {
@@ -387,31 +422,30 @@ a.project-card {
   }
 }
 
-footer.mastfoot a{
+#footer {
+  max-height: 200px;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0px;
+  z-index: 99999999999999999999;
+  background-color: #343a40;
+  width: 100%;
+}
+
+#footer .inner i {
+  margin-top: 5px;
+  color: papayawhip;
+  cursor: pointer;
+}
+
+#footer .col {
+ border:  2px solid rgba(0, 0, 0, .3)
+}
+
+ #footer .inner i:hover {
+  text-shadow: 2px 3px 4px 4px rgba(255, 255, 255, .35)
+ }
+
+#footer .inner i.selected{
   color: firebrick;
 }
-
-@media (min-width: 48em) {
-  .masthead-brand {
-    float: left;
-  }
-  .nav-masthead {
-    float: right;
-  }
-}
-
-/*
- * Cover
- */
-.cover {
-  padding: 0 1.5rem;
-}
-.cover .btn-lg {
-  padding: .75rem 1.25rem;
-  font-weight: 700;
-}
-
-
-/*
- * Footer
- */

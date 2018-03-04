@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { database, auth, googleAuthProvider } from './Firebase';
 import { filter, find, indexOf, isEmpty, get } from 'lodash';
 import Header from '../incudes/Header';
-import Footer from '../incudes/Footer';
 import Landing from '../main-components/Landing';
 import CreateProject from '../main-components/CreateProject';
 import NewWorkplaceApplication
@@ -18,7 +17,8 @@ class App extends Component {
       user: null,
       project: null,
       userProjects: [],
-      utils: {}
+      utils: {},
+      fiterBy: null
     };
 
     this.databaseRef = database.ref('/');
@@ -185,7 +185,7 @@ class App extends Component {
         <div>
           <Header />
           <BrowserRouter>
-            <div className="app">
+            <div>
               <Switch>
                 <Route
                   exact
@@ -278,7 +278,6 @@ class App extends Component {
               </Switch>
             </div>
           </BrowserRouter>
-          <Footer />
         </div>
       </div>
     );

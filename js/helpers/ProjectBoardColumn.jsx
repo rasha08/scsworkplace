@@ -17,7 +17,7 @@ const ProjectBoardColumn = props => {
               to={`/add-task/${props.projectNameSlug}`}
               className="btn btn-xs btn-dark right add-task"
             >
-              +
+              <i className="material-icons">playlist_add</i>
             </LinkWrapper>
           : <div />}
       </div>

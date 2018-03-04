@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import { database, storage } from '../app-logic-components/Firebase';
 import { isEmpty, get, map, merge, isNil } from 'lodash';
 import Alert from '../helpers/Alert';
+import Footer from '../incudes/Footer';
 import FormReadonlyField from '../helpers/form-field-helpers/FormReadonlyField';
 import FormField from '../helpers/form-field-helpers/FormField';
 import FormFileInput from '../helpers/form-field-helpers/FormFileInput';
@@ -151,7 +152,7 @@ class CreateTask extends Component {
       this.setState({
         taskDataValid: false
       });
-      this.setStateAfterTimeout({taskDataValid: true}, 2300)
+      this.setStateAfterTimeout({ taskDataValid: true }, 2300);
     }
   }
 
@@ -190,173 +191,172 @@ class CreateTask extends Component {
   }
 
   setStateAfterTimeout(stateChange, timeoutTime) {
-    setTimeout(
-        () =>
-          this.setState(stateChange),
-        timeoutTime
-      );
+    setTimeout(() => this.setState(stateChange), timeoutTime);
   }
 
   render() {
     return (
-      <main role="main" className="container-fluid">
-        {this.state.redirect || !this.state.user || !this.state.projectUrl
-          ? <Redirect
-              to={`/projects/${this.state.projectUrl ? this.state.projectUrl : ''}`}
-            />
-          : <div />}
-        <div id="content">
-          <div className="form create-project create-task col-md-8">
-            {!this.state.taskDataValid
-              ? <Alert
-                  type="warning"
-                  message="Please check if all task data has been entered."
-                />
-              : <div />}
-            {this.state.taskDeleted
-              ? <Alert type="info" message="Successfully deleted task." />
-              : <div />}
-            <h1 className="text-center">
-              {!this.state.oldTaskExists
-                ? 'CREATE NEW TASK'
-                : this.getOldValue('name')}
-            </h1>
-            {this.state.createdBy
-              ? <small className="text-muted">
-                  created by
-                  {' '}
-                  {`${this.state.createdBy}`}
-                  {' '}
-                  at
-                  {' '}
-                  {`${this.state.creationDate}`}
-                  <hr />
-                </small>
-              : <hr />}
+      <div>
+        <main role="main" className="container-fluid">
+          {this.state.redirect || !this.state.user || !this.state.projectUrl
+            ? <Redirect
+                to={`/projects/${this.state.projectUrl ? this.state.projectUrl : ''}`}
+              />
+            : <div />}
+          <div id="content">
+            <div className="form create-project create-task col-md-8">
+              {!this.state.taskDataValid
+                ? <Alert
+                    type="warning"
+                    message="Please check if all task data has been entered."
+                  />
+                : <div />}
+              {this.state.taskDeleted
+                ? <Alert type="info" message="Successfully deleted task." />
+                : <div />}
+              <h1 className="text-center">
+                {!this.state.oldTaskExists
+                  ? 'CREATE NEW TASK'
+                  : this.getOldValue('name')}
+              </h1>
+              {this.state.createdBy
+                ? <small className="text-muted">
+                    created by
+                    {' '}
+                    {`${this.state.createdBy}`}
+                    {' '}
+                    at
+                    {' '}
+                    {`${this.state.creationDate}`}
+                    <hr />
+                  </small>
+                : <hr />}
 
-            {get(this.state.oldTaskState, 'name')
-              ? <div />
-              : <FormField
-                  fieldName={'title'}
-                  type={'Task'}
-                  fieldType={'text'}
-                  value={this.getOldValue('title')}
-                  handleChange={this.handleTitleChange.bind(this)}
-                  updateFieldValue={this.updateFieldValue.bind(this)}
-                />}
+              {get(this.state.oldTaskState, 'name')
+                ? <div />
+                : <FormField
+                    fieldName={'title'}
+                    type={'Task'}
+                    fieldType={'text'}
+                    value={this.getOldValue('title')}
+                    handleChange={this.handleTitleChange.bind(this)}
+                    updateFieldValue={this.updateFieldValue.bind(this)}
+                  />}
 
-            {get(this.state.oldTaskState, 'assigner')
-              ? <FormReadonlyField
-                  fieldName={'assigner'}
-                  value={this.getOldValue('assigner')}
-                  type={'Task'}
-                  fieldType={'text'}
-                />
-              : <div />}
+              {get(this.state.oldTaskState, 'assigner')
+                ? <FormReadonlyField
+                    fieldName={'assigner'}
+                    value={this.getOldValue('assigner')}
+                    type={'Task'}
+                    fieldType={'text'}
+                  />
+                : <div />}
 
-            {get(this.state.oldTaskState, 'reviewer')
-              ? <FormReadonlyField
-                  fieldName={'reviewer'}
-                  value={this.getOldValue('reviewer')}
-                  type={'Task'}
-                  fieldType={'text'}
-                />
-              : <div />}
+              {get(this.state.oldTaskState, 'reviewer')
+                ? <FormReadonlyField
+                    fieldName={'reviewer'}
+                    value={this.getOldValue('reviewer')}
+                    type={'Task'}
+                    fieldType={'text'}
+                  />
+                : <div />}
 
-            <FormTextAreaField
-              fieldName={'description'}
-              value={this.getOldValue('description')}
-              type={'Task'}
-              handleChange={this.handleDescriptionChange.bind(this)}
-              updateFieldValue={this.updateFieldValue.bind(this)}
-            />
-
-            <div className="form-row">
-              <FormField
-                fieldName={'externalLink'}
-                value={this.getOldValue('externalLink')}
+              <FormTextAreaField
+                fieldName={'description'}
+                value={this.getOldValue('description')}
                 type={'Task'}
-                fieldType={'text'}
-                handleChange={this.handleTaskExternalRelatedUrlChange.bind(
-                  this
-                )}
+                handleChange={this.handleDescriptionChange.bind(this)}
                 updateFieldValue={this.updateFieldValue.bind(this)}
               />
-            </div>
-            <label className="form-check-label col-md-12">
-              Select task type and  label
-            </label>
-            <div className="custom-file col-md-6">
-              <FormSelect
-                handleSelectChange={this.handleTaskTypeChange.bind(this)}
-                options={this.state.availableTaskTypes}
-                selected={this.state.type}
-                type={'Task'}
-                selectName={'Type'}
-              />
-            </div>
-            <div className="custom-file col-md-6">
-              <FormSelect
-                handleSelectChange={this.handleTaskLabelChange.bind(this)}
-                options={get(this.state.project, 'labels')}
-                selected={this.state.label}
-                type={'Task'}
-                selectName={'Label'}
-              />
-            </div>
-            <br />
-            <br />
-            <div className="custom-file col-md-12">
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value="high"
-                  checked={this.state.highPriorityTask}
-                  onChange={() => this.handlePriorityChange()}
-                />
-                <label className="form-check-label">
-                  {' '}Mark If This Is High Priority Task
-                </label>
-              </div>
-            </div>
-            <br />
-            <FormFileInput
-              handleImageUpload={this.handleImageUpload.bind(this)}
-              fileUploadState={this.state.fileUploadState}
-            />
-            {get(this.state, 'image')
-              ? <img src={this.state.image} className="img img-responsive" />
-              : <div />}
-            <br />
-            {map(this.state.comments, comment => (
-              <TaskSingleComment comment={comment} key={comment.id} />
-            ))}
-            <br />
-            {this.state.oldTaskExists
-              ? <TaskAddComment
-                  handleChange={this.handleCommentTextChange.bind(this)}
-                  submitComment={this.commentTask.bind(this)}
-                />
-              : <div />}
-            {this.state.oldTaskExists
-              ? <button
-                  className="btn btn-danger btn-lg"
-                  onClick={() => this.deleteTask()}
-                >
-                  Delete Task
-                </button>
-              : <div />}
-            <button
-              className={`btn ${this.state.oldTaskExists ? 'btn-dark btn-lg' : 'btn-success btn-block'}`}
-              onClick={() => this.createtask()}
-            >
-              {this.state.oldTaskExists ? 'Save Changes' : 'Create Task'}
-            </button>
 
+              <div className="form-row">
+                <FormField
+                  fieldName={'externalLink'}
+                  value={this.getOldValue('externalLink')}
+                  type={'Task'}
+                  fieldType={'text'}
+                  handleChange={this.handleTaskExternalRelatedUrlChange.bind(
+                    this
+                  )}
+                  updateFieldValue={this.updateFieldValue.bind(this)}
+                />
+              </div>
+              <label className="form-check-label col-md-12">
+                Select task type and  label
+              </label>
+              <div className="custom-file col-md-6">
+                <FormSelect
+                  handleSelectChange={this.handleTaskTypeChange.bind(this)}
+                  options={this.state.availableTaskTypes}
+                  selected={this.state.type}
+                  type={'Task'}
+                  selectName={'Type'}
+                />
+              </div>
+              <div className="custom-file col-md-6">
+                <FormSelect
+                  handleSelectChange={this.handleTaskLabelChange.bind(this)}
+                  options={get(this.state.project, 'labels')}
+                  selected={this.state.label}
+                  type={'Task'}
+                  selectName={'Label'}
+                />
+              </div>
+              <br />
+              <br />
+              <div className="custom-file col-md-12">
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value="high"
+                    checked={this.state.highPriorityTask}
+                    onChange={() => this.handlePriorityChange()}
+                  />
+                  <label className="form-check-label">
+                    {' '}Mark If This Is High Priority Task
+                  </label>
+                </div>
+              </div>
+              <br />
+              <FormFileInput
+                handleImageUpload={this.handleImageUpload.bind(this)}
+                fileUploadState={this.state.fileUploadState}
+              />
+              {get(this.state, 'image')
+                ? <img src={this.state.image} className="img img-responsive" />
+                : <div />}
+              <br />
+              {map(this.state.comments, comment => (
+                <TaskSingleComment comment={comment} key={comment.id} />
+              ))}
+              <br />
+              {this.state.oldTaskExists
+                ? <TaskAddComment
+                    handleChange={this.handleCommentTextChange.bind(this)}
+                    submitComment={this.commentTask.bind(this)}
+                  />
+                : <div />}
+              {this.state.oldTaskExists
+                ? <button
+                    className="btn btn-danger btn-lg"
+                    onClick={() => this.deleteTask()}
+                  >
+                    Delete Task
+                  </button>
+                : <div />}
+              <button
+                className={`btn ${this.state.oldTaskExists ? 'btn-dark btn-lg' : 'btn-success btn-block'}`}
+                onClick={() => this.createtask()}
+              >
+                {this.state.oldTaskExists ? 'Save Changes' : 'Create Task'}
+              </button>
+
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+        <Footer />
+      </div>
     );
   }
 }
