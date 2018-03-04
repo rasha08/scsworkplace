@@ -1,13 +1,16 @@
 import React from 'react';
+import FooterMenu from '../helpers/footer-components/FooterMenu';
 
-const Footer = () => (
-  <footer className="mastfoot mt-auto">
+const Footer = props => (
+  <footer id="footer">
     <div className="inner">
-      <p>
-        Developed by
-        <a href="https://smart-cat-solutions.com/"> SMART CAT SOLUTIONS</a>
-        .
-      </p>
+      {props.project
+        ? <FooterMenu project={props.project} />
+        : <p>
+            Developed by
+            <a href="https://smart-cat-solutions.com/"> SMART CAT SOLUTIONS</a>
+            .
+          </p>}
     </div>
   </footer>
 );
