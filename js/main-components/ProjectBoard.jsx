@@ -1,13 +1,16 @@
 import React from 'react';
-import { map, get } from 'lodash';
+import { map, get, filter } from 'lodash';
 import Footer from '../incudes/Footer';
 import Loader from '../incudes/Loader';
 import ProjectBoardColumn from '../helpers/ProjectBoardColumn';
 
 const ProjectBoard = props => {
+  let tasks = [];
   let porojectColumns = get(props.project, 'boardColumns');
   let projectNameSlug = get(props.project, 'projectNameSlug');
-  let tasks = get(props.project, 'tasks') || [];
+  if (props.utils.filterTasksByType) {
+    tasks = props.utils.filterTasksByType(get(props.project, 'tasks'))
+  }
   let lastColumnIndex = get(porojectColumns, 'length') - 1;
   return (
     <div>
@@ -36,7 +39,7 @@ const ProjectBoard = props => {
 
         </div>
       </main>
-      <Footer project={props.project} />
+      <Footer project={props.project} utils={props.utils} filterBy={props.filterBy} />
     </div>
   );
 };

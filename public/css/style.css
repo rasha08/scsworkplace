@@ -26,17 +26,17 @@ a:hover {
 
 /* Track */
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-track:horizontal {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:horizontal {
-  background: rgba(0, 0, 0, .34); 
+  background: rgba(0, 0, 0, .34);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 
@@ -190,7 +190,7 @@ a.project-card {
 }
 
 .btn#create-workplace {
-  position: absolute;
+  position: relative;
 }
 #board {
   width: auto;
@@ -198,7 +198,7 @@ a.project-card {
 }
 
 #board .column {
-  height: 90.5vh;
+  height: calc(92.5vh - 40px);
   overflow-y: hidden;
   border-right: 2px solid firebrick;
   overflow-x: hidden;
@@ -223,8 +223,9 @@ a.project-card {
 
 #board .column .column-tasks {
   margin-top: 35px;
-  height: 91.5vh;
+  height: 88vh;
   overflow-y: auto;
+  padding-bottom: 60px;
 }
 
 
@@ -394,7 +395,7 @@ a.project-card {
   padding: 3px;
   background-color: rgba(0, 0, 0, .3) !important;
   border: 1px solid firebrick;
- 
+
 }
 
 .create-task .comment-alert .comment-comment {
@@ -423,7 +424,7 @@ a.project-card {
 }
 
 #footer {
-  max-height: 200px;
+  height: 40px;
   overflow: hidden;
   position: fixed;
   bottom: 0px;
@@ -448,4 +449,16 @@ a.project-card {
 
 #footer .inner i.selected{
   color: firebrick;
+}
+
+#footer p {
+  padding-top: 10px;
+  color: papayawhip
+}
+
+#footer p a {
+  color: firebrick;
+  font-weight: bolder;
+  font-size: 120%;
+  padding-left: 30px;
 }

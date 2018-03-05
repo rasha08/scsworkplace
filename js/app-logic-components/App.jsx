@@ -18,7 +18,7 @@ class App extends Component {
       project: null,
       userProjects: [],
       utils: {},
-      fiterBy: null
+      filterBy: null
     };
 
     this.databaseRef = database.ref('/');
@@ -64,6 +64,8 @@ class App extends Component {
     this.assignUserToTask = this.assignUserToTask.bind(this);
     this.assignReviewerToTask = this.assignReviewerToTask.bind(this);
     this.blockTask = this.blockTask.bind(this);
+    this.filterTasksBy = this.filterTasksBy.bind(this)
+    this.filterTasksByType = this.filterTasksByType.bind(this);
 
     this.setState({
       utils: {
@@ -71,7 +73,9 @@ class App extends Component {
         changeTaskColumn: this.changeTaskColumn,
         assignUserToTask: this.assignUserToTask,
         assignReviewerToTask: this.assignReviewerToTask,
-        blockTask: this.blockTask
+        blockTask: this.blockTask,
+        filterTasksBy: this.filterTasksBy,
+        filterTasksByType: this.filterTasksByType
       }
     });
   }
@@ -179,6 +183,33 @@ class App extends Component {
     );
   }
 
+  filterTasksBy(type) {
+    console.log('type', type)
+    if (type === this.state.filterTasksBy) {
+      this.setState({
+        filterTasksBy: null
+      });
+
+      return;
+    }
+
+    this.setState({
+      filterTasksBy: type
+    });
+  }
+
+  filterTasksByType(tasks) {
+    if (isEmpty(tasks)) {
+      return [];
+    } else if (!this.state.filterTasksBy) {
+      return tasks;
+    } else if (this.state.filterTasksBy === 'highPriorityTask') {
+      return filter(tasks, task => task.highPriorityTask);
+    }
+
+    return filter(tasks, task => task[this.state.filterTasksBy] === this.state.user.displayName);
+  }
+
   render() {
     return (
       <div className="app">
@@ -248,13 +279,14 @@ class App extends Component {
                         props.match.params.projectUrlSlug
                       )}
                       utils={this.state.utils}
+                      filterBy={this.state.filterTasksBy}
                     />
                   )}
                 />
                 <Route
                   path="/projects/edit/:projectUrlSlug"
                   component={props => (
-                    <ProjectBoard
+                    <CreateProject
                       user={this.state.user}
                       project={this.getProjectByNameSlug(
                         props.match.params.projectUrlSlug
