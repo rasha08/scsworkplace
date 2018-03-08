@@ -35,7 +35,8 @@ class CreateTask extends Component {
       oldTaskState: props.task || {},
       oldTaskExists: !isNil(props.task),
       taskDeleted: false,
-      commentText: ''
+      commentText: '',
+      sprint: get(props.project, 'activeSprint') || 0
     };
 
     if (!isEmpty(props.task)) {
@@ -146,7 +147,8 @@ class CreateTask extends Component {
           `${this.state.taskNameSlug}-${timestamp}`,
         comments: this.state.oldTaskState.comments || [],
         assigner: this.state.assigner,
-        reviewer: this.state.reviewer
+        reviewer: this.state.reviewer,
+        sprint: this.state.sprint
       });
     } else {
       this.setState({

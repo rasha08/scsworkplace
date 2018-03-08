@@ -2,6 +2,8 @@ import React from 'react';
 import LinkWrapper from '../LinkWrapper';
 
 const FooterMenu = props => {
+  console.log(props.tasks)
+  let finishSprint = () => props.utils.finishSprint(props.tasks, props.lastColumnIndex, props.project.activeSprint, props.project.projectNameSlug)
   const getCssClass = (type) => type === props.filterBy ? 'material-icons selected' : 'material-icons'
   return (
     <div className="container">
@@ -9,9 +11,9 @@ const FooterMenu = props => {
         <LinkWrapper className="col" to="/projects">
           <i className="material-icons">view_comfy</i>
         </LinkWrapper>
-        <div className="col">
+        <LinkWrapper to={`/projects/edit/${props.project.projectNameSlug}`} className="col">
           <i className="material-icons">create</i>
-        </div><a
+        </LinkWrapper><a
           href={props.project.specification}
           target="blank"
           className="col"
@@ -33,7 +35,7 @@ const FooterMenu = props => {
           <i className={getCssClass('assigner')}>assignment_ind</i>
         </div><div className="col" onClick={() => props.utils.filterTasksBy('reviewer')}>
           <i className={getCssClass('reviewer')}>beenhere</i>
-        </div><div className="col">
+        </div><div className="col" onClick={() => {}}>
           <i className="material-icons">grid_off</i>
         </div>
       </div>

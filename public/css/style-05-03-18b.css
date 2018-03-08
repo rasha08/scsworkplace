@@ -225,7 +225,7 @@ a.project-card {
   margin-top: 35px;
   height: 88vh;
   overflow-y: auto;
-  padding-bottom: 60px;
+  padding-bottom: 65px;
 }
 
 
@@ -429,7 +429,7 @@ a.project-card {
   position: fixed;
   bottom: 0px;
   z-index: 99999999999999999999;
-  background-color: #343a40;
+  background-color: rgba(52,58,64, 0.9);
   width: 100%;
 }
 

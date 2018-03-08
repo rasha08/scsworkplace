@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { database, storage } from '../app-logic-components/Firebase';
-import { isEmpty } from 'lodash';
+import { isEmpty, get, map, merge, isNil } from 'lodash';
 import Alert from '../helpers/Alert';
 import Footer from '../incudes/Footer';
+import FormReadonlyField from '../helpers/form-field-helpers/FormReadonlyField';
+import FormField from '../helpers/form-field-helpers/FormField';
+import FormFileInput from '../helpers/form-field-helpers/FormFileInput';
+import FormTextAreaField from '../helpers/form-field-helpers/FormTextAreaField';
+import FormSelect from '../helpers/form-field-helpers/FormSelect';
+import TaskSingleComment from '../helpers/task-components/TaskSingleComment';
+import TaskAddComment from '../helpers/task-components/TaskAddComment';
+
 
 class CreateProject extends Component {
   constructor(props) {
     super();
     this.state = {
       user: props.user,
-      projectName: '',
+      name: '',
       projectNameSlug: '',
-      projectDescription: '',
-      projectMembers: [],
+      description: '',
+      members: [],
       projectColumns: [],
-      projectLabels: [],
-      projectLogoUrl: '',
-      projectSpecificationUrl: '',
+      labes: [],
+      logo: '',
+      specification: '',
       startDate: '',
       fileUploadState: false,
       projectDataValid: true,
@@ -27,7 +35,7 @@ class CreateProject extends Component {
 
   handleTitleChange(changeEvent) {
     this.setState({
-      projectName: changeEvent.target.value,
+      mane: changeEvent.target.value,
       projectNameSlug: this.createTitleSlug(changeEvent.target.value)
     });
   }
@@ -43,13 +51,13 @@ class CreateProject extends Component {
 
   handleDescriptionChange(changeEvent) {
     this.setState({
-      projectDescription: changeEvent.target.value
+      description: changeEvent.target.value
     });
   }
 
-  handleProjectMembersChange(changeEvent) {
+  handleMembersChange(changeEvent) {
     this.setState({
-      projectMembers: changeEvent.target.value.split('|')
+      members: changeEvent.target.value.split('|')
     });
   }
 
@@ -59,15 +67,15 @@ class CreateProject extends Component {
     });
   }
 
-  handleProjectLabelsChange(changeEvent) {
+  handleLabesChange(changeEvent) {
     this.setState({
-      projectLabels: changeEvent.target.value.split('|')
+      labes: changeEvent.target.value.split('|')
     });
   }
 
   handleProjectSpecificationChange(changeEvent) {
     this.setState({
-      projectSpecificationUrl: changeEvent.target.value
+      specification: changeEvent.target.value
     });
   }
 
@@ -90,7 +98,7 @@ class CreateProject extends Component {
       .put(file, { contentType: file.type });
     uploadTask.then(snapshot => {
       this.setState({
-        projectLogoUrl: snapshot.downloadURL
+        logo: snapshot.downloadURL
       });
       this.setState({
         fileUploadState: true
@@ -103,16 +111,16 @@ class CreateProject extends Component {
       this.projectRef = database.ref(`/${this.state.projectNameSlug}`);
       this.projectRef
         .set({
-          name: this.state.projectName,
-          description: this.state.projectDescription,
-          members: this.state.projectMembers,
+          name: this.state.name,
+          description: this.state.description,
+          members: this.state.members,
           boardColumns: this.state.projectColumns,
-          logo: this.state.projectLogoUrl,
-          specification: this.state.projectSpecificationUrl,
+          logo: this.state.logo,
+          specification: this.state.specification,
           startDate: this.state.startDate,
           projectMaster: this.state.user.email,
           tasks: [],
-          labels: this.state.projectLabels,
+          labels: this.state.labes,
           projectNameSlug: this.state.projectNameSlug
         })
         .then(() => {
@@ -133,12 +141,12 @@ class CreateProject extends Component {
   }
 
   isProjectDataValid() {
-    return !(isEmpty(this.state.projectName) &&
-      isEmpty(this.state.projectDescription) &&
-      isEmpty(this.state.projectLogoUrl) &&
-      isEmpty(this.state.projectMembers) &&
+    return !(isEmpty(this.state.name) &&
+      isEmpty(this.state.description) &&
+      isEmpty(this.state.logo) &&
+      isEmpty(this.state.members) &&
       isEmpty(this.state.startDate) &&
-      isEmpty(this.state.projectSpecificationUrl));
+      isEmpty(this.state.specification));
   }
 
   render() {
@@ -173,7 +181,7 @@ class CreateProject extends Component {
                 <label>Project Description</label>
                 <textarea
                   className="form-control"
-                  id="projectDescription"
+                  id="description"
                   placeholder="Project description..."
                   onBlur={event => this.handleDescriptionChange(event)}
                 />
@@ -186,7 +194,7 @@ class CreateProject extends Component {
                     className="form-control"
                     id="Members"
                     placeholder="project members"
-                    onBlur={event => this.handleProjectMembersChange(event)}
+                    onBlur={event => this.handleMembersChange(event)}
                   />
                 </div>
               </div>
@@ -210,7 +218,7 @@ class CreateProject extends Component {
                     className="form-control"
                     id="columns"
                     placeholder="Enter Project Board Labels"
-                    onBlur={event => this.handleProjectLabelsChange(event)}
+                    onBlur={event => this.handleLabesChange(event)}
                   />
                 </div>
               </div>

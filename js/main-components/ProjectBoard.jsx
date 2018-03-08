@@ -6,12 +6,13 @@ import ProjectBoardColumn from '../helpers/ProjectBoardColumn';
 
 const ProjectBoard = props => {
   let tasks = [];
-  let porojectColumns = get(props.project, 'boardColumns');
+  let projectColumns = get(props.project, 'boardColumns');
   let projectNameSlug = get(props.project, 'projectNameSlug');
   if (props.utils.filterTasksByType) {
     tasks = props.utils.filterTasksByType(get(props.project, 'tasks'))
-  }
-  let lastColumnIndex = get(porojectColumns, 'length') - 1;
+    tasks = filter(tasks, task =>get(task, 'sprint') === get(props.project, 'activeSprint'));
+  } 
+  let lastColumnIndex = get(projectColumns, 'length') - 1;
   return (
     <div>
       <main>
@@ -20,7 +21,7 @@ const ProjectBoard = props => {
             ? <Loader />
             : <div className="container-fluid" id="board">
                 <div className="row">
-                  {map(porojectColumns, column => (
+                  {map(projectColumns, column => (
                     <ProjectBoardColumn
                       column={column}
                       projectNameSlug={projectNameSlug}
@@ -28,7 +29,7 @@ const ProjectBoard = props => {
                       utils={props.utils}
                       index={props.utils.getColumnIndex(
                         column,
-                        porojectColumns
+                        projectColumns
                       )}
                       lastIndex={lastColumnIndex}
                       key={column}
@@ -39,7 +40,12 @@ const ProjectBoard = props => {
 
         </div>
       </main>
-      <Footer project={props.project} utils={props.utils} filterBy={props.filterBy} />
+      <Footer
+        project={props.project}
+        utils={props.utils}
+        filterBy={props.filterBy}
+        tasks={tasks}
+        lastColumnIndex={lastColumnIndex} />
     </div>
   );
 };

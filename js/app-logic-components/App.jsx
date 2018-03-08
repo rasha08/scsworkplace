@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { database, auth, googleAuthProvider } from './Firebase';
-import { filter, find, indexOf, isEmpty, get } from 'lodash';
+import { filter, find, indexOf, isEmpty, get, forEach } from 'lodash';
 import Header from '../incudes/Header';
 import Landing from '../main-components/Landing';
 import CreateProject from '../main-components/CreateProject';
@@ -66,6 +66,7 @@ class App extends Component {
     this.blockTask = this.blockTask.bind(this);
     this.filterTasksBy = this.filterTasksBy.bind(this)
     this.filterTasksByType = this.filterTasksByType.bind(this);
+    this.finishSprint = this.finishSprint.bind(this)
 
     this.setState({
       utils: {
@@ -75,7 +76,8 @@ class App extends Component {
         assignReviewerToTask: this.assignReviewerToTask,
         blockTask: this.blockTask,
         filterTasksBy: this.filterTasksBy,
-        filterTasksByType: this.filterTasksByType
+        filterTasksByType: this.filterTasksByType,
+        finishSprint: this.finishSprint
       }
     });
   }
@@ -210,6 +212,28 @@ class App extends Component {
     return filter(tasks, task => task[this.state.filterTasksBy] === this.state.user.displayName);
   }
 
+  finishSprint(tasks, lastColumn, activeSprint, projectUrl) {
+    forEach(tasks, task => {
+      if(task.columnIndex === lastColumn) {
+        console.log(task)
+        database
+          .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/sprint`)
+          .set(activeSprint);
+      } else {
+        console.log(task)
+        database
+          .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/sprint`)
+          .set(activeSprint + 1);
+      }
+    })
+
+    database
+      .ref(`/${projectUrl}/activeSprint`)
+      .set(activeSprint + 1);
+    
+
+  }
+
   render() {
     return (
       <div className="app">
@@ -242,6 +266,18 @@ class App extends Component {
                   exact
                   path="/create-project"
                   component={props => <CreateProject user={this.state.user} />}
+                />
+                <Route
+                  path="/projects/edit/:projectUrlSlug"
+                  component={props => (
+                    <CreateProject
+                      user={this.state.user}
+                      project={this.getProjectByNameSlug(
+                        props.match.params.projectUrlSlug
+                      )}
+                      utils={this.state.utils}
+                    />
+                  )}
                 />
                 <Route
                   exact
@@ -280,18 +316,6 @@ class App extends Component {
                       )}
                       utils={this.state.utils}
                       filterBy={this.state.filterTasksBy}
-                    />
-                  )}
-                />
-                <Route
-                  path="/projects/edit/:projectUrlSlug"
-                  component={props => (
-                    <CreateProject
-                      user={this.state.user}
-                      project={this.getProjectByNameSlug(
-                        props.match.params.projectUrlSlug
-                      )}
-                      utils={this.state.utils}
                     />
                   )}
                 />

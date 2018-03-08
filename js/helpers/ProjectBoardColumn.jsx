@@ -5,7 +5,6 @@ import LinkWrapper from './LinkWrapper';
 import TaskCard from './task-components/TaskCard';
 
 const ProjectBoardColumn = props => {
-  console.log(filter(props.tasks, task => task.columnIndex === props.index));
   return (
     <div className="col-md-3 column">
       <div className="column-header">
