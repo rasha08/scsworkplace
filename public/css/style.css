@@ -4,7 +4,16 @@ a:focus,
 a:hover {
   color: #fff;
 }
+#app {
+  height: 100vh;
+  width: 100vw;
+}
 
+#app img {
+  width: 15vw;
+  height: 15vh;
+  margin-top: 35vh;
+}
 /* Custom default button */
 .btn-secondary,
 .btn-secondary:hover,
