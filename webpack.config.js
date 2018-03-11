@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   context: __dirname,
@@ -10,7 +11,7 @@ module.exports = {
     // 'webpack/hot/only-dev-server',
     './js/ClientApp.jsx'
   ],
-  devtool: 'eval',
+  // devtool: 'eval',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
@@ -39,9 +40,27 @@ module.exports = {
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
+      mangle: true,
+      compress: {
+        warnings: false, // Suppress uglification warnings
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true
+      },
+      output: {
+        comments: false
+      },
+      exclude: [/\.min\.js$/gi] // skip pre-minified libs
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0
     })
   ],
   module: {
