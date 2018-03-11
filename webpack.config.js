@@ -7,10 +7,10 @@ module.exports = {
   entry: [
     //	"react-hot-loader/patch",
     //"webpack-dev-server/client?http://localhost:8080",
-    //	"webpack/hot/only-dev-server",
+    // 'webpack/hot/only-dev-server',
     './js/ClientApp.jsx'
   ],
-  // devtool: 'eval',
+  devtool: 'eval',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',

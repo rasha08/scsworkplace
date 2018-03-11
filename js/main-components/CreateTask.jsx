@@ -159,7 +159,9 @@ class CreateTask extends Component {
   }
 
   istaskDataValid() {
-    return !(isEmpty(this.state.name) && isEmpty(this.state.description));
+    return !(isEmpty(this.state.name) ||
+      isEmpty(this.state.description) ||
+      isEmpty(this.state.label));
   }
 
   deleteTask() {
