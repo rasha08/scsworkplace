@@ -2,8 +2,7 @@
 
 const Hapi = require('hapi');
 const path = require('path');
-
-const fb = require('./app/firebase/firebase');
+const dbService = require('./app/database/firebase-db-service');
 
 const server = new Hapi.Server({
   connections: {
@@ -31,28 +30,15 @@ server.connection({
 
 // Start the server
 async function start() {
+  try {
+    await server.start();
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
 
-    try {
-        await server.start();
-    }
-    catch (err) {
-        console.log(err);
-        process.exit(1);
-    }
-
-    const databaseRef = fb.database.ref('/');
-
-
-    setTimeout(() => {
-      // console.dir( databaseRef);
-      // fb.auth();
-      databaseRef.on('value', snapshot => {
-        console.log('HERE')
-        console.log(snapshot.val())
-      })
-    }, 5000)
-
-    console.log('Server running at:', server.info.uri);
-};
+  dbService.connectToDatabase();
+  console.log('Server running at:', server.info.uri);
+}
 
 start();
