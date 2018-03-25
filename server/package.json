@@ -1,0 +1,33 @@
+{
+  "name": "scs-workplace-server-app",
+  "version": "1.0.0",
+  "description": "Server app for scs workplace application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasha08/scsworkplace.git"
+  },
+  "author": "Radovan Stevanovic <rasha08@gamil.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rasha08/scsworkplace/issues"
+  },
+  "homepage": "https://github.com/rasha08/scsworkplace#readme",
+  "dependencies": {
+    "boom": "^4.2.0",
+    "firebase": "^4.12.0",
+    "firebase-admin": "^5.11.0",
+    "hapi": "^16.1.0",
+    "hapi-geo-locate": "^1.1.1",
+    "hapi-plugin-websocket": "^1.2.18",
+    "inert": "^4.1.0",
+    "joi": "^10.2.2",
+    "lodash": "^4.17.4",
+    "mailgun-js": "^0.16.0",
+    "nes": "^7.0.0",
+    "wreck": "^11.0.0"
+  }
+}
