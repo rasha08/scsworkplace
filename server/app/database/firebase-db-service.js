@@ -4,7 +4,7 @@ const _ = require('lodash');
 var deepDiff = require('deep-diff');
 
 const logService = require('../services/log-service');
-const utilsService = require('../services/utils-service');
+const taskChangeService = require('../services/task-change-service');
 
 const databaseRef = fb.database.ref('/');
 const projects = {};
@@ -25,9 +25,10 @@ const populateProjects = dbProjects => {
 const checkForChanges = newDbState => {
   if (!_.isEmpty(projects)) {
     logService.log('processing board state chnage');
-    let change = utilsService.difference(newDbState, projects);
+    let change = taskChangeService.difference(newDbState, projects);
     console.log(JSON.stringify(change, null, 2));
-    console.log(utilsService.getOriginalTask(projects, change));
+    let originalTask = taskChangeService.getOriginalTask(projects, change);
+    console.log(taskChangeService.getListOfUserToNotify(originalTask));
   }
 };
 
