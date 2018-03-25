@@ -213,6 +213,7 @@ class App extends Component {
   }
 
   finishSprint(tasks, lastColumn, activeSprint, projectUrl) {
+    console.log('FINISH SPRINT');
     forEach(tasks, task => {
       if(task.columnIndex === lastColumn) {
         console.log(task)

@@ -35,7 +35,7 @@ const FooterMenu = props => {
           <i className={getCssClass('assigner')}>assignment_ind</i>
         </div><div className="col" onClick={() => props.utils.filterTasksBy('reviewer')}>
           <i className={getCssClass('reviewer')}>beenhere</i>
-        </div><div className="col" onClick={() => {}}>
+        </div><div className="col" onClick={() => {finishSprint()}}>
           <i className="material-icons">grid_off</i>
         </div>
       </div>
