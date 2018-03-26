@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const formatChangeMessageService = require('./message-formating-service');
 
 const difference = (object, base) => {
   return getDifference(object, base);
@@ -65,8 +66,24 @@ const getListOfUserToNotify = originalTask => {
   );
 };
 
+const createChangeObject = (change, orgiginalTask, usersToNotify, projects) => {
+  const message = formatChangeMessageService.formatChangeMessage(
+    change,
+    orgiginalTask,
+    projects
+  );
+  console.log(message);
+  return {
+    projectName: _.findKey(change),
+    taskName: orgiginalTask.name,
+    changeMessage: message,
+    usersToNotify: usersToNotify
+  };
+};
+
 module.exports = {
   difference,
   getOriginalTask,
-  getListOfUserToNotify
+  getListOfUserToNotify,
+  createChangeObject
 };

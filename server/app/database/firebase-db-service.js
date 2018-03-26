@@ -25,22 +25,18 @@ const checkForChanges = newDbState => {
   if (!_.isEmpty(projects)) {
     logService.log('processing board state chnage');
     let change = taskChangeService.difference(newDbState, projects);
-    console.log(JSON.stringify(change, null, 2));
     let originalTask = taskChangeService.getOriginalTask(projects, change);
-    // mailNotifyService.sendMessage();
     let usersToNotify = taskChangeService.getListOfUserToNotify(originalTask);
-    mailNotifyService.formatDataAndSendMessage(createChangeObject(change, originalTask, usersToNotify));
+    mailNotifyService.formatDataAndSendMessage(
+      taskChangeService.createChangeObject(
+        change,
+        originalTask,
+        usersToNotify,
+        projects
+      )
+    );
   }
 };
-
-const createChangeObject = (change, orgiginalTask, usersToNotify) => {
-  return {
-    projectName: _.findKey(change),
-    taskName: orgiginalTask.name,
-    changeMessage: 'Ovo je test poruka samo pokusavam da smislim kako ce izgledati kartice za email notifikacije',
-    usersToNotify: usersToNotify
-  }
-}
 
 module.exports = {
   connectToDatabase
