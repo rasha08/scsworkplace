@@ -72,7 +72,7 @@ const createChangeObject = (change, orgiginalTask, usersToNotify, projects) => {
     orgiginalTask,
     projects
   );
-  console.log(message);
+
   return {
     projectName: _.findKey(change),
     taskName: orgiginalTask.name,

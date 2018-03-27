@@ -17,6 +17,10 @@ const sendMessage = data => {
 };
 
 const formatDataAndSendMessage = changeObject => {
+  if (!changeObject.changeMessage) {
+    return;
+  }
+
   const data = {
     from: 'SCS WORKPLACE <me@samples.mailgun.org>',
     // to: changeObject.usersToNotify.reduce((prev, curr) => prev + ',' + curr),
@@ -34,10 +38,10 @@ const formatDataAndSendMessage = changeObject => {
         </head>
         <body style="overflow:hidden">
           <div style=" overflow-y:hidden; border: 2px solid firebrick; border-top-left-radius: 10px; border-top-right-radius: 10px; box-shadow: 2px 3px 5px 4px gray; width: 500px;  background-color: #484E53;">
-            <div style="width: 500px; min-height: 50px; background-color: #2b2f33; color:snow; font-size: 24px; text-align: center; padding-right:25%; padding:3%; box-shadow: inset 1px 1px 1px gray; font-weight: bold; overflow-y:hidden">
+            <div style="width: 480px; min-height: 50px; background-color: #2b2f33; color:snow; font-size: 24px; text-align: center; padding-right:25%; padding:3%; box-shadow: inset 1px 1px 1px gray; font-weight: bold; overflow-y:hidden">
               ${changeObject.taskName}
             </div>
-            <div style="width: 380px; height: 200px; background-color: #484E53; color:papayawhip; font-size: 18px; text-align: center; padding:3%; border-bottom: 1px solid firebrick; border-top: 1px solid firebrick; overflow:hidden; padding: 10%; padding-right:25%">
+            <div style="width: 380px; height: 150px; background-color: #484E53; color:papayawhip; font-size: 16px; text-align: center; border-bottom: 1px solid firebrick; border-top: 1px solid firebrick; overflow:hidden; padding-top: 10%; padding-left: 10%; padding-right:25%">
               ${changeObject.changeMessage}
             </div>
             <div style="width: 520px; height: 20px; background-color: #2b2f33; color:snow; font-size: 14px; text-align: center; padding:1%; box-shadow: inset 1px 1px 1px gray; overflow:hidden">

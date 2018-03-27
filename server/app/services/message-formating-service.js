@@ -27,7 +27,7 @@ const getColumnChangeIndexMessage = (
   onlyChange,
   original
 ) => {
-  return `Task <b style="color:snow">${original.name}</b> has been moved from <b style="color:snow">${formatMessageProperty(projects, projectName, onlyChange)}</b> to <b style="color:snow">${formatMessageProperty(projects, projectName, original)}</b>`;
+  return `Task <b style="color:snow; font-size:22px; font-weight:bold">${original.name}</b> has been moved from <b style="color:snow; font-size:22px; font-weight:bold">${formatMessageProperty(projects, projectName, onlyChange)}</b> to <b style="color:snow; font-size:22px; font-weight:bold">${formatMessageProperty(projects, projectName, original)}</b>`;
 };
 
 module.exports = {
