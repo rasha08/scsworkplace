@@ -2,8 +2,16 @@
 
 * ReactJS frontend
 * Firebase auth and database
+* HapiJS server
 
-- git clone
+# Client App 
+
+- npm install
+- npm run dev
+
+# Server App  
+
+- cd ./server
 - npm install
 - npm run dev
 
