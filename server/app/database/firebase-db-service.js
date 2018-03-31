@@ -4,6 +4,7 @@ const fb = require('../configs/firebase');
 const logService = require('../services/log-service');
 const taskChangeService = require('../services/task-change-service');
 const mailNotifyService = require('../services/mail-notify-service');
+const userNotifyService = require('../services/user-notify-service');
 
 const databaseRef = fb.database.ref('/');
 const projects = {};
@@ -26,15 +27,20 @@ const checkForChanges = newDbState => {
     logService.log('processing board state chnage');
     let change = taskChangeService.difference(newDbState, projects);
     let originalTask = taskChangeService.getOriginalTask(projects, change);
-    let usersToNotify = taskChangeService.getListOfUserToNotify(originalTask);
-    mailNotifyService.formatDataAndSendMessage(
-      taskChangeService.createChangeObject(
-        change,
-        originalTask,
-        usersToNotify,
-        projects
-      )
+    let usersToNotify = [];
+
+    let changeObject = taskChangeService.createChangeObject(
+      change,
+      originalTask,
+      usersToNotify,
+      projects
     );
+
+    changeObject.usersToNotify = userNotifyService.getListOfUserToNotify(
+      originalTask
+    );
+
+    mailNotifyService.formatDataAndSendMessage(changeObject);
   }
 };
 
