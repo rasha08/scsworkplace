@@ -4,14 +4,36 @@ const api_key = 'key-646af459e2bee923e52500a9f96c0b8a';
 const DOMAIN = 'scsworkplace.ml';
 const mailgun = require('mailgun-js')({ apiKey: api_key, domain: DOMAIN });
 
+const supervisor_api_key = 'key-74d69a614db62f11c9459f6627c9fe43';
+const SUPER_DOMAIN = 'sandbox0910a7251b2247bc8a91ca0f0686a2d5.mailgun.org';
+const super_mailgun = require('mailgun-js')({
+  apiKey: supervisor_api_key,
+  domain: SUPER_DOMAIN
+});
+
 const sendMessage = data => {
   mailgun.messages().send(data, function(error, body) {
     if (error) {
-      logService.error('error while sending email notification');
+      // logService.error('error while sending email notification');
+      console.log(error);
       return;
     }
 
     logService.log('email notifications sent');
+  });
+};
+
+const sendMessageToSupervissors = data => {
+  super_mailgun.messages().send(data, function(error, body) {
+    if (error) {
+      logService.error(
+        'error while sending email notification to supervissors'
+      );
+      console.log(error);
+      return;
+    }
+
+    logService.log('email notifications sent  to supervissors');
   });
 };
 
@@ -53,6 +75,8 @@ const formatDataAndSendMessage = changeObject => {
   };
 
   sendMessage(data);
+  data.to = 'rasha08@gmail.com, ivanastean@gmail.com';
+  sendMessageToSupervissors(data);
 };
 
 module.exports = {

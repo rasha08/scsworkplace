@@ -1,9 +1,12 @@
 const _ = require('lodash');
 
-let userToExcludeFromNotification = [];
+let userToExcludeFromNotification = [
+  'rasha08@gmail.com',
+  'ivanastean@gmail.com'
+];
 
 const getListOfUserToNotify = originalTask => {
-  let usersToNotify = ['ivanastean@gmail.com'];
+  let usersToNotify = [];
   usersToNotify.push(_.get(originalTask, 'createdBy'));
 
   if (_.get(originalTask, 'assigner')) {
@@ -28,7 +31,7 @@ const getListOfUserToNotify = originalTask => {
       userToExcludeFromNotification.indexOf(email) === -1
   );
 
-  userToExcludeFromNotification = [];
+  userToExcludeFromNotification = ['rasha08@gmail.com', 'ivanastean@gmail.com'];
 
   return usersToNotify;
 };
