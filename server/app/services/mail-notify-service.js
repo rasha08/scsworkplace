@@ -1,4 +1,5 @@
 const logService = require('./log-service');
+const _ = require('lodash');
 
 const api_key = 'key-646af459e2bee923e52500a9f96c0b8a';
 const DOMAIN = 'scsworkplace.ml';
@@ -14,8 +15,8 @@ const super_mailgun = require('mailgun-js')({
 const sendMessage = data => {
   mailgun.messages().send(data, function(error, body) {
     if (error) {
-      // logService.error('error while sending email notification');
-      console.log(error);
+      logService.error('error while sending email notification');
+      // console.log(error);
       return;
     }
 
@@ -38,7 +39,7 @@ const sendMessageToSupervissors = data => {
 };
 
 const formatDataAndSendMessage = changeObject => {
-  if (!changeObject.changeMessage) {
+  if (!changeObject.changeMessage || _.isEmpty(changeObject.usersToNotify)) {
     return;
   }
 

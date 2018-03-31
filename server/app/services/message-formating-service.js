@@ -39,13 +39,6 @@ const formatChangeMessage = (change, original, projects) => {
     );
 
     return getCommentChangeMessage(projects, projectName, newComment, original);
-  } else if (_.has(onlyChange, 'description')) {
-    return getReviewerChangeMessage(
-      projects,
-      projectName,
-      onlyChange,
-      original
-    );
   }
 };
 
