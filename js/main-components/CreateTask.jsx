@@ -111,6 +111,9 @@ class CreateTask extends Component {
   }
 
   getOldValue(fieldName) {
+    if (fieldName === 'assigner' || fieldName === 'reviewer') {
+      return get(this.state.oldTaskState, `${fieldName}.displayName`);
+    }
     return get(this.state.oldTaskState, `${fieldName}`) || '';
   }
 
@@ -180,7 +183,10 @@ class CreateTask extends Component {
         )
         .set({
           id: id,
-          user: this.state.user.displayName,
+          user: {
+            displayName: this.state.user.displayName,
+            email: this.state.user.email
+          },
           comment: this.state.commentText,
           date: new Date().toDateString()
         });

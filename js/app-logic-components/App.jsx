@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { database, auth, googleAuthProvider } from './Firebase';
-import { filter, find, indexOf, isEmpty, get, forEach } from 'lodash';
+import { filter, find, indexOf, isEmpty, get, forEach, map } from 'lodash';
 import Header from '../incudes/Header';
 import Landing from '../main-components/Landing';
 import CreateProject from '../main-components/CreateProject';
@@ -64,9 +64,9 @@ class App extends Component {
     this.assignUserToTask = this.assignUserToTask.bind(this);
     this.assignReviewerToTask = this.assignReviewerToTask.bind(this);
     this.blockTask = this.blockTask.bind(this);
-    this.filterTasksBy = this.filterTasksBy.bind(this)
+    this.filterTasksBy = this.filterTasksBy.bind(this);
     this.filterTasksByType = this.filterTasksByType.bind(this);
-    this.finishSprint = this.finishSprint.bind(this)
+    this.finishSprint = this.finishSprint.bind(this);
 
     this.setState({
       utils: {
@@ -98,7 +98,7 @@ class App extends Component {
 
     if (
       task.columnIndex === 0 &&
-      !(task.assigner === this.state.user.displayName)
+      !(get(task, 'assigner.displayName') === this.state.user.displayName)
     ) {
       this.assignUserToTask(event, projectUrl, task);
     }
@@ -123,15 +123,16 @@ class App extends Component {
     event.stopPropagation();
 
     if (task.state !== 'blocked') {
-      if (task.assigner === this.state.user.displayName) {
+      if (get(task, 'assigner.displayName') === this.state.user.displayName) {
         database
           .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/assigner`)
           .set('');
         this.moveTaskToFirstColimnIfNeeded(event, projectUrl, task);
       } else {
-        database
-          .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/assigner`)
-          .set(this.state.user.displayName);
+        database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/assigner`).set({
+          displayName: this.state.user.displayName,
+          email: this.state.user.email
+        });
       }
     }
   }
@@ -140,17 +141,18 @@ class App extends Component {
     event.preventDefault();
     event.stopPropagation();
 
-    if (task.reviewer === this.state.user.displayName) {
+    if (get(task, 'reviewer.displayName') === this.state.user.displayName) {
       database
         .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/reviewer`)
         .set('');
     } else if (
       !isEmpty(task.assigner) &&
-      task.assigner !== this.state.user.displayName
+      get(task, 'assigner.displayName') !== this.state.user.displayName
     ) {
-      database
-        .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/reviewer`)
-        .set(this.state.user.displayName);
+      database.ref(`/${projectUrl}/tasks/${task.taskNameSlug}/reviewer`).set({
+        displayName: this.state.user.displayName,
+        email: this.state.user.email
+      });
     }
   }
 
@@ -186,7 +188,7 @@ class App extends Component {
   }
 
   filterTasksBy(type) {
-    console.log('type', type)
+    console.log('type', type);
     if (type === this.state.filterTasksBy) {
       this.setState({
         filterTasksBy: null
@@ -209,29 +211,31 @@ class App extends Component {
       return filter(tasks, task => task.highPriorityTask);
     }
 
-    return filter(tasks, task => task[this.state.filterTasksBy] === this.state.user.displayName);
+    return filter(
+      tasks,
+      task =>
+        get(task[this.state.filterTasksBy], 'displayName') ===
+        this.state.user.displayName
+    );
   }
 
   finishSprint(tasks, lastColumn, activeSprint, projectUrl) {
+    console.log('FINISH SPRINT');
     forEach(tasks, task => {
-      if(task.columnIndex === lastColumn) {
-        console.log(task)
+      if (task.columnIndex === lastColumn) {
+        console.log(task);
         database
           .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/sprint`)
           .set(activeSprint);
       } else {
-        console.log(task)
+        console.log(task);
         database
           .ref(`/${projectUrl}/tasks/${task.taskNameSlug}/sprint`)
           .set(activeSprint + 1);
       }
-    })
+    });
 
-    database
-      .ref(`/${projectUrl}/activeSprint`)
-      .set(activeSprint + 1);
-    
-
+    database.ref(`/${projectUrl}/activeSprint`).set(activeSprint + 1);
   }
 
   render() {
