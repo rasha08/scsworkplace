@@ -39,13 +39,13 @@ const sendMessageToSupervissors = data => {
 };
 
 const formatDataAndSendMessage = changeObject => {
-  if (!changeObject.changeMessage || _.isEmpty(changeObject.usersToNotify)) {
+  if (!changeObject.changeMessage) {
     return;
   }
 
   const data = {
     from: 'SCS WORKPLACE <me@samples.mailgun.org>',
-    to: changeObject.usersToNotify.reduce((prev, curr) => prev + ',' + curr),
+    to: _.isEmpty(changeObject.usersToNotify) ? '' : changeObject.usersToNotify.reduce((prev, curr) => prev + ',' + curr),
     // to: 'rasha08@gmail.com',
     subject: `${changeObject.projectName.toUpperCase()} - ${changeObject.taskName}`,
     html: `
@@ -75,7 +75,9 @@ const formatDataAndSendMessage = changeObject => {
     `
   };
 
-  sendMessage(data);
+  if(!_.isEmpty(changeObject.usersToNotify)) {
+    sendMessage(data);
+  }
   data.to = 'rasha08@gmail.com, ivanastean@gmail.com';
   sendMessageToSupervissors(data);
 };
