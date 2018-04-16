@@ -334,7 +334,10 @@ class CreateTask extends Component {
                 fileUploadState={this.state.fileUploadState}
               />
               {get(this.state, 'image')
-                ? <img src={this.state.image} className="img img-responsive" />
+                ? <img
+                    src={this.state.image}
+                    className="img img-responsive task-image"
+                  />
                 : <div />}
               <br />
               {map(this.state.comments, comment => (

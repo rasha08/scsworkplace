@@ -471,3 +471,8 @@ a.project-card {
   font-size: 120%;
   padding-left: 30px;
 }
+
+#content .create-task img{
+  width: 600px !important;
+  height: auto;
+}

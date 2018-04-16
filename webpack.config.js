@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
@@ -54,7 +54,8 @@ module.exports = {
     //   exclude: [/\.min\.js$/gi] // skip pre-minified libs
     // }),
     new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new UglifyJsPlugin()
     // new CompressionPlugin({
     //   asset: '[path].gz[query]',
     //   algorithm: 'gzip',
