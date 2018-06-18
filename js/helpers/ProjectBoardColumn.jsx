@@ -1,5 +1,6 @@
 import React from 'react';
 import { map, get, filter, orderBy } from 'lodash';
+import { getTooltipMessage } from '../services/tooltip.service';
 
 import LinkWrapper from './LinkWrapper';
 import TaskCard from './task-components/TaskCard';
@@ -14,7 +15,8 @@ const ProjectBoardColumn = props => {
         {props.index === 0
           ? <LinkWrapper
               to={`/add-task/${props.projectNameSlug}`}
-              className="btn btn-xs btn-dark right add-task"
+            className="btn btn-xs btn-dark right add-task"
+            title={getTooltipMessage('addTask')}
             >
               <i className="material-icons">playlist_add</i>
             </LinkWrapper>

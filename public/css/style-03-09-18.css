@@ -476,9 +476,3 @@ a.project-card {
   width: 600px !important;
   height: auto;
 }
-
-.tool-tip {
-  position: absolute;
-  z-index: 9999999999999999999999999999;
-  background-color: firebrick
-}

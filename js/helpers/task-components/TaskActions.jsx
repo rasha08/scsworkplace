@@ -1,5 +1,6 @@
 import React from 'react';
-import TaskTooltip from './taskActionTooltip';
+import { getTooltipMessage } from '../../services/tooltip.service';
+
 
 const TaskActions = props => {
   const changeTaskColumn = (event, direction) => {
@@ -50,6 +51,7 @@ const TaskActions = props => {
             props.index === 0 ? 'material-icons disabled' : 'material-icons'
           }
           onClick={event => changeTaskColumn(event, 'left')}
+          title={getTooltipMessage('moveBack')}
         >
           assignment_return
         </i>
@@ -58,10 +60,14 @@ const TaskActions = props => {
             props.task.assigner ? 'material-icons assigned' : 'material-icons'
           }
           onClick={event => assignUser(event)}
+          title={getTooltipMessage('assign')}
         >
           assignment_ind
         </i>
-        <i className="material-icons" onClick={event => blockTask(event)}>
+        <i className="material-icons"
+          onClick={event => blockTask(event)}
+          title={getTooltipMessage('block')}
+        >
           block
         </i>
         <i
@@ -69,6 +75,7 @@ const TaskActions = props => {
             props.task.reviewer ? 'material-icons assigned' : 'material-icons'
           }
           onClick={event => assignReviewerToTask(event)}
+          title={getTooltipMessage('review')}
         >
           assignment_turned_in
         </i>
@@ -79,11 +86,12 @@ const TaskActions = props => {
               : 'material-icons'
           }
           onClick={event => changeTaskColumn(event, 'right')}
+          title={getTooltipMessage('moveForward')}
         >
           forward
         </i>
       </div>
-      {/* <TaskTooltip value={tooltipedElement} /> */}
+    
     </div>
   );
 };
